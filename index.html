@@ -3,9 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>bakkumi — Batch rename, names intact</title>
-<meta name="description" content="bakkumi is a free macOS batch renamer that repairs Korean filenames broken by Windows and keeps the names you write from breaking on the way back. Download the notarized DMG or install with Homebrew.">
 <meta name="theme-color" content="#F4BC50">
+<title>바꾸미 bakkumi — 맥 파일 이름 일괄 변경, 한글 파일명 깨짐 복구 · Mac batch renamer</title>
+<meta name="description" content="맥용 무료 파일 이름 일괄 변경 프로그램. 찾아 바꾸기·번호 매기기·확장자 변경을 미리보기로 안전하게 하고, Windows에서 온 ÇÑ±Û 같은 깨진 한글 파일명을 되살리며 자모 분리(NFD)를 정리합니다. Apple 공증 DMG, Homebrew 지원. Free macOS batch renamer that repairs broken Korean filenames and keeps names intact on Windows.">
+<meta name="keywords" content="맥 파일명 일괄 변경, 맥 이름 바꾸기, 파일 이름 일괄 변경 맥, 깨진 파일명 복구, 한글 파일명 깨짐, 자모 분리, 맥 리네임, batch rename mac, bakkumi, 바꾸미">
+<link rel="canonical" href="https://mhb8436.github.io/bakkumi-release/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="bakkumi">
+<meta property="og:title" content="바꾸미 bakkumi — 맥 파일 이름 일괄 변경, 한글 파일명 깨짐 복구 · Mac batch renamer">
+<meta property="og:description" content="맥용 무료 파일 이름 일괄 변경 프로그램. 찾아 바꾸기·번호 매기기·확장자 변경을 미리보기로 안전하게 하고, Windows에서 온 ÇÑ±Û 같은 깨진 한글 파일명을 되살리며 자모 분리(NFD)를 정리합니다. Apple 공증 DMG, Homebrew 지원. Free macOS batch renamer that repairs broken Korean filenames and keeps names intact on Windows.">
+<meta property="og:url" content="https://mhb8436.github.io/bakkumi-release/">
+<meta property="og:image" content="https://mhb8436.github.io/bakkumi-release/icon.png">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "bakkumi",
+ "alternateName": "바꾸미",
+ "applicationCategory": "UtilitiesApplication",
+ "operatingSystem": "macOS 14 or later",
+ "url": "https://mhb8436.github.io/bakkumi-release/",
+ "image": "https://mhb8436.github.io/bakkumi-release/icon.png",
+ "description": "맥용 무료 파일 이름 일괄 변경 프로그램. 찾아 바꾸기·번호 매기기·확장자 변경을 미리보기로 안전하게 하고, Windows에서 온 ÇÑ±Û 같은 깨진 한글 파일명을 되살리며 자모 분리(NFD)를 정리합니다. Apple 공증 DMG, Homebrew 지원. Free macOS batch renamer that repairs broken Korean filenames and keeps names intact on Windows.",
+ "inLanguage": [
+  "ko",
+  "en"
+ ],
+ "isAccessibleForFree": true,
+ "offers": {
+  "@type": "Offer",
+  "price": "0",
+  "priceCurrency": "USD"
+ },
+ "downloadUrl": "https://github.com/mhb8436/bakkumi-release/releases/latest/download/bakkumi.dmg",
+ "installUrl": "https://github.com/mhb8436/bakkumi-release/releases/latest",
+ "author": {
+  "@type": "Person",
+  "name": "JI HOON LEE"
+ },
+ "featureList": [
+  "이름 전체 교체, 찾아 바꾸기, 앞뒤 덧붙이기",
+  "번호 매기기 (이름순·날짜순·크기순·촬영순)",
+  "확장자 변경, 공백 정리, 윈도우 안전 이름",
+  "깨진 한글 파일명 복구 (CP949 등, 왕복 검증)",
+  "자모 분리(NFD) 정리와 '윈도우에서 보이는 대로' 미리보기",
+  "충돌 차단과 되돌리기",
+  "Finder 우클릭 확장"
+ ]
+}
+</script>
 <style>
   :root{
     --ground:#FBF9F4; --raised:#FFFFFF; --line:#E6E1D6;
@@ -97,7 +146,7 @@
   <header>
     <img src="icon.png" alt="bakkumi">
     <h1>bakkumi</h1>
-    <p class="tag">Batch rename, names intact &middot; 한글이 안 깨지는 이름 바꾸기</p>
+    <p class="tag">Batch rename, names intact &middot; 맥 파일 이름 일괄 변경, 한글이 안 깨집니다</p>
 
     <a class="cta" href="https://github.com/mhb8436/bakkumi-release/releases/latest/download/bakkumi.dmg">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -238,7 +287,7 @@
   <section id="korean" lang="ko">
     <div class="card center">
       <a class="cta" style="margin:0" href="https://github.com/mhb8436/bakkumi-release/releases/latest/download/bakkumi.dmg">macOS용 다운로드</a>
-      <p class="meta">macOS 14 이상 &middot; Apple 실리콘·인텔 &middot; Apple 공증 완료 &middot; 무료</p>
+      <p class="meta">맥용 무료 이름 바꾸기 &middot; macOS 14 이상 &middot; Apple 실리콘·인텔 &middot; Apple 공증 완료</p>
       <p class="brew">또는 <code>brew install --cask mhb8436/bakkumi/bakkumi</code></p>
     </div>
 

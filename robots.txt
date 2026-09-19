@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://mhb8436.github.io/bakkumi-release/sitemap.xml
