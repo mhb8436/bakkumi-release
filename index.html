@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>bakkumi — Batch rename, names intact</title>
+<meta name="description" content="bakkumi is a free macOS batch renamer that repairs Korean filenames broken by Windows and keeps the names you write from breaking on the way back. Download the notarized DMG or install with Homebrew.">
+<meta name="theme-color" content="#F4BC50">
+<style>
+  :root{
+    --ground:#FBF9F4; --raised:#FFFFFF; --line:#E6E1D6;
+    --ink:#23242A; --text:#3A3B42; --muted:#6E6A60;
+    --amber:#F4BC50; --amber-deep:#D88B10; --accent:#A8650A;
+    --bad:#B7412E; --good:#2E7D4F;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --ground:#15161A; --raised:#1C1E24; --line:#2A2D35;
+      --ink:#E9E4DA; --text:#CFCABE; --muted:#9A9689;
+      --accent:#F4BC50; --bad:#D98C7A; --good:#8FCB9B;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--ground); color:var(--ink);
+    font:16px/1.65 ui-sans-serif,-apple-system,"SF Pro Text","Helvetica Neue",
+         "Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:720px; margin:0 auto; padding:0 24px}
+  header{padding:72px 0 40px; text-align:center}
+  header img{width:112px; height:112px}
+  h1{margin:22px 0 6px; font-size:34px; font-weight:600; letter-spacing:-.02em}
+  .tag{margin:0; color:var(--muted); font-size:17px}
+  .cta{
+    display:inline-flex; align-items:center; gap:10px; margin:26px 0 0;
+    padding:14px 26px; border-radius:12px; color:#23242A;
+    background:linear-gradient(180deg,var(--amber),var(--amber-deep));
+    font-weight:600; font-size:17px; text-decoration:none;
+    box-shadow:0 1px 2px rgba(0,0,0,.12);
+  }
+  .cta:hover{filter:brightness(1.05)}
+  .cta svg{width:18px; height:18px}
+  .meta{margin:14px 0 0; color:var(--muted); font-size:14px}
+  .meta a{color:var(--muted)}
+  .brew{margin:16px 0 0; color:var(--muted); font-size:14px}
+  .brew code{font-size:13px}
+  .badges{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin:18px 0 0}
+  .badges span{
+    font-size:13px; color:var(--muted); border:1px solid var(--line);
+    border-radius:999px; padding:4px 11px;
+  }
+  h2{
+    margin:56px 0 6px; font-size:13px; font-weight:600; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--accent);
+  }
+  h3{margin:30px 0 6px; font-size:17px; font-weight:600}
+  p{margin:0 0 14px; color:var(--text)}
+  a{color:var(--accent)}
+  ul,ol{margin:0 0 14px; padding-left:20px; color:var(--text)}
+  li{margin:5px 0}
+  .card{
+    background:var(--raised); border:1px solid var(--line);
+    border-radius:12px; padding:20px 22px; margin:18px 0;
+  }
+  .card.center{text-align:center}
+  .compare{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:18px 0}
+  .compare div{background:var(--raised); border:1px solid var(--line); border-radius:12px; padding:16px 18px}
+  .compare .lbl{
+    display:block; font-size:12px; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:10px;
+  }
+  .compare code{display:block; background:transparent; padding:0; font-size:15px; word-break:break-all; color:var(--ink)}
+  .compare .bad code{color:var(--bad)}
+  .compare .good code{color:var(--good)}
+  .lang{display:flex; gap:8px; justify-content:center; margin:22px 0 0}
+  .lang a{
+    color:var(--muted); text-decoration:none; font-size:14px;
+    padding:5px 12px; border:1px solid var(--line); border-radius:999px;
+  }
+  .lang a:hover{color:var(--ink); border-color:var(--amber-deep)}
+  hr{border:0; border-top:1px solid var(--line); margin:64px 0}
+  footer{padding:40px 0 72px; color:var(--muted); font-size:14px; text-align:center}
+  code{
+    background:rgba(127,127,127,.13); padding:2px 6px; border-radius:5px;
+    font:13px/1.5 ui-monospace,"SF Mono",Menlo,monospace; color:var(--ink);
+  }
+  @media (max-width:520px){
+    header{padding:48px 0 32px} h1{font-size:28px}
+    .compare{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img src="icon.png" alt="bakkumi">
+    <h1>bakkumi</h1>
+    <p class="tag">Batch rename, names intact &middot; 한글이 안 깨지는 이름 바꾸기</p>
+
+    <a class="cta" href="https://github.com/mhb8436/bakkumi-release/releases/latest/download/bakkumi.dmg">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12M6 11l6 6 6-6M4 20h16"/>
+      </svg>
+      Download for macOS
+    </a>
+    <p class="meta" id="rel" hidden>
+      Version <span id="rv"></span> &middot; <span id="rd"></span> &middot; <span id="rs"></span>
+      &middot; <a href="https://github.com/mhb8436/bakkumi-release/releases">all releases</a>
+    </p>
+    <p class="brew">or <code>brew install --cask mhb8436/bakkumi/bakkumi</code></p>
+    <div class="badges">
+      <span>macOS 14 or later</span>
+      <span>Apple silicon &amp; Intel</span>
+      <span>Notarized by Apple</span>
+      <span>Free</span>
+    </div>
+
+    <div class="lang"><a href="#english">English</a><a href="#korean">한국어</a></div>
+  </header>
+
+  <section id="english">
+    <h2>The problem</h2>
+    <p>Files that travel between macOS and Windows lose their names in two different ways.
+    A file from Windows can arrive with its name read in the wrong encoding. And a name written
+    on a Mac is stored with its Korean letters taken apart, which looks fine on the Mac and
+    scattered on Windows. You cannot see the second one on a Mac at all.</p>
+
+    <div class="compare">
+      <div class="bad">
+        <span class="lbl">Arrived from Windows</span>
+        <code>ÇÑ±Û ¹®¼­ ÃÖÁ¾.txt</code>
+      </div>
+      <div class="good">
+        <span class="lbl">After bakkumi</span>
+        <code>한글 문서 최종.txt</code>
+      </div>
+      <div class="bad">
+        <span class="lbl">Written on a Mac, seen on Windows</span>
+        <code>ㅎㅏㄴㄱㅡㄹ ㅁㅔㅁㅗ.txt</code>
+      </div>
+      <div class="good">
+        <span class="lbl">After bakkumi, seen on Windows</span>
+        <code>한글 메모.txt</code>
+      </div>
+    </div>
+
+    <h2>What it does</h2>
+    <ul>
+      <li><strong>Repairs broken names.</strong> bakkumi guesses the original encoding (CP949,
+      Shift_JIS, GB18030, Big5 and more), checks that the repair round-trips, and only touches
+      names it can prove. If it is not certain, it leaves the file alone. You can switch the
+      encoding with a live preview.</li>
+      <li><strong>Tidies decomposed Hangul.</strong> Every rename normalizes the name so it stays
+      in one piece on Windows. The <strong>Show as Windows Sees It</strong> switch shows what the
+      other side would get, before you change anything.</li>
+      <li><strong>The common jobs, in seconds.</strong> Replace the whole name, find and replace,
+      prefix and suffix, numbering by name, date, size or the time a photo was taken, change the
+      extension, tidy spaces, make names safe for Windows. Fill in the fields you need. There are
+      no rules to stack and no order to arrange.</li>
+      <li><strong>Nothing happens without a preview.</strong> The preview cannot be turned off.
+      If even one new name would collide, the rename button stays locked. bakkumi never uses the
+      system path that overwrites a file silently. Undo works batch by batch.</li>
+      <li><strong>Finder integration:</strong> right-click to rename here, plus the Services menu
+      and Open With.</li>
+    </ul>
+
+    <h2>Install</h2>
+    <ol>
+      <li>Open the downloaded <code>bakkumi.dmg</code> and drag bakkumi into <strong>Applications</strong>.
+      Or, with Homebrew: <code>brew install --cask mhb8436/bakkumi/bakkumi</code>.</li>
+      <li>Launch it. The app is signed and notarized by Apple, so it opens without any workaround.</li>
+      <li>Optional: turn on the Finder extension for the right-click menu. See the first question below.</li>
+    </ol>
+
+    <h2>Questions</h2>
+
+    <h3>The right-click menu in Finder does not show bakkumi</h3>
+    <p>macOS turns off Finder extensions by default. Open
+    <strong>System Settings &rsaquo; General &rsaquo; Login Items &amp; Extensions &rsaquo;
+    Finder Extensions</strong> and switch on bakkumi.</p>
+
+    <h3>Why does bakkumi ask for permission to a folder?</h3>
+    <p>A Finder extension can tell bakkumi which folder you picked, but macOS does not let it
+    hand over permission to change anything inside. Allowing a folder once lets bakkumi rename
+    inside it without asking again. The folders you allowed are listed in the sidebar. Right-click
+    one and choose <strong>Remove from List</strong> to take the permission back.</p>
+
+    <h3>The preview shows the same name on both sides</h3>
+    <p>Then the name looks fine but its Korean letters are stored taken apart. Windows shows it
+    that way. The status column says <strong>Tidy up</strong>, and turning on
+    <strong>Show as Windows Sees It</strong> shows the difference.</p>
+
+    <h3>Some names are marked "Cannot repair"</h3>
+    <p>Those names were already damaged before they reached you: the wrong encoding replaced some
+    letters with a placeholder character, and the original is gone. bakkumi says so instead of
+    guessing, and skips them.</p>
+
+    <h3>Names on my USB stick still come apart</h3>
+    <p>macOS writes every name on an exFAT or FAT32 volume in the decomposed form, whatever an app
+    does. bakkumi tells you when a volume cannot store joined names instead of pretending it
+    worked. Repairing broken names still works there.</p>
+
+    <h3>How do I get updates?</h3>
+    <p>Choose <strong>bakkumi &rsaquo; Check for Updates</strong>. bakkumi never checks on its own.
+    If you installed with Homebrew, <code>brew upgrade --cask bakkumi</code>.</p>
+
+    <h2 id="support">Support</h2>
+    <div class="card">
+      <p style="margin:0">Please open an issue and we will reply there:<br>
+      <a href="https://github.com/mhb8436/bakkumi-release/issues">github.com/mhb8436/bakkumi-release/issues</a></p>
+    </div>
+
+    <h2 id="privacy">Privacy</h2>
+    <div class="card">
+      <p style="margin:0 0 10px"><strong>bakkumi collects nothing.</strong></p>
+      <ul style="margin:0">
+        <li>No personal data is collected, stored or transmitted.</li>
+        <li>No analytics, no tracking, no advertising identifiers.</li>
+        <li>Your files, and their names, never leave your Mac. Opening a folder sends nothing anywhere.</li>
+        <li>There are exactly two moments when bakkumi uses the network, and both happen only
+        when <em>you</em> ask for them:
+          <ul style="margin:6px 0 0">
+            <li>If you put the <code>{place}</code> tag in a name, the GPS coordinates already
+            stored in the photo, rounded to three decimals, are sent to Apple's geocoding
+            service to get a place name. Nothing is kept after you quit.</li>
+            <li>If you choose <strong>Check for Updates</strong>, bakkumi reads the latest version
+            number from GitHub. Nothing about you or your files is sent.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <hr>
+
+  <section id="korean" lang="ko">
+    <div class="card center">
+      <a class="cta" style="margin:0" href="https://github.com/mhb8436/bakkumi-release/releases/latest/download/bakkumi.dmg">macOS용 다운로드</a>
+      <p class="meta">macOS 14 이상 &middot; Apple 실리콘·인텔 &middot; Apple 공증 완료 &middot; 무료</p>
+      <p class="brew">또는 <code>brew install --cask mhb8436/bakkumi/bakkumi</code></p>
+    </div>
+
+    <h2>어떤 문제인가</h2>
+    <p>맥과 윈도우 사이를 오가는 파일은 이름이 두 가지 방식으로 망가집니다. 윈도우에서 온
+    파일은 이름이 잘못된 인코딩으로 읽혀 도착하고, 맥에서 지은 이름은 한글이 자모 단위로
+    쪼개져 저장됩니다. 후자는 맥에서는 멀쩡해 보이고 윈도우에서는 흩어져 보이는데,
+    맥에서는 눈으로 구분할 수가 없습니다.</p>
+
+    <div class="compare">
+      <div class="bad">
+        <span class="lbl">윈도우에서 받은 파일</span>
+        <code>ÇÑ±Û ¹®¼­ ÃÖÁ¾.txt</code>
+      </div>
+      <div class="good">
+        <span class="lbl">바꾸미가 되살린 이름</span>
+        <code>한글 문서 최종.txt</code>
+      </div>
+      <div class="bad">
+        <span class="lbl">맥에서 지은 이름, 윈도우에서 보면</span>
+        <code>ㅎㅏㄴㄱㅡㄹ ㅁㅔㅁㅗ.txt</code>
+      </div>
+      <div class="good">
+        <span class="lbl">바꾸미를 거친 뒤, 윈도우에서 보면</span>
+        <code>한글 메모.txt</code>
+      </div>
+    </div>
+
+    <h2>이 앱이 하는 일</h2>
+    <ul>
+      <li><strong>깨진 이름을 되살립니다.</strong> 원래 인코딩(CP949, Shift_JIS, GB18030, Big5 등)을
+      추정하고, 되돌린 이름이 왕복 검증을 통과하는지 확인한 뒤 확인된 것만 고칩니다. 확실하지
+      않으면 손대지 않습니다. 인코딩을 바꾸면 미리보기가 바로 따라옵니다.</li>
+      <li><strong>자모 분리를 정리합니다.</strong> 이름을 바꿀 때마다 윈도우에서도 한 글자로
+      남게 정규화합니다. <strong>윈도우에서 보이는 대로</strong>를 켜면 바꾸기 전에 받는 쪽이
+      볼 모습을 미리 봅니다.</li>
+      <li><strong>흔한 일은 몇 초면 끝납니다.</strong> 이름 전체 교체, 찾아 바꾸기, 앞뒤 덧붙이기,
+      번호 매기기(이름순·날짜순·크기순·촬영순), 확장자 변경, 공백 정리, 윈도우에서 쓸 수 있는
+      이름으로 다듬기. 빈칸을 채우면 끝입니다. 규칙을 쌓거나 순서를 정할 필요가 없습니다.</li>
+      <li><strong>미리보기 없이는 아무것도 일어나지 않습니다.</strong> 미리보기는 끌 수 없습니다.
+      겹치는 이름이 하나라도 있으면 실행 버튼이 잠깁니다. 같은 이름을 말없이 덮어쓰는 시스템
+      경로는 쓰지 않습니다. 되돌리기는 묶음 단위로 됩니다.</li>
+      <li><strong>Finder 연동:</strong> 우클릭으로 여기서 이름 바꾸기, 서비스 메뉴, 다음으로 열기.</li>
+    </ul>
+
+    <h2>설치</h2>
+    <ol>
+      <li>내려받은 <code>bakkumi.dmg</code>를 열고 bakkumi를 <strong>응용 프로그램</strong>으로 끌어다 놓습니다.
+      Homebrew를 쓴다면 <code>brew install --cask mhb8436/bakkumi/bakkumi</code>.</li>
+      <li>실행합니다. Apple이 서명과 공증을 확인한 앱이라 별도 우회 없이 바로 열립니다.</li>
+      <li>선택: 우클릭 메뉴를 쓰려면 Finder 확장을 켭니다. 아래 첫 번째 항목을 보세요.</li>
+    </ol>
+
+    <h2>자주 묻는 것</h2>
+
+    <h3>Finder 우클릭 메뉴에 bakkumi가 안 보입니다</h3>
+    <p>macOS는 Finder 확장을 기본으로 꺼 둡니다.
+    <strong>시스템 설정 &rsaquo; 일반 &rsaquo; 로그인 항목 및 확장 프로그램 &rsaquo;
+    Finder 확장 프로그램</strong>에서 bakkumi를 켜주세요.</p>
+
+    <h3>왜 폴더 접근 권한을 묻나요?</h3>
+    <p>Finder 확장은 어떤 폴더를 골랐는지 알려줄 수 있지만, macOS가 그 안을 고칠 권한까지
+    넘기는 것은 허용하지 않습니다. 폴더를 한 번 허용하면 그 안에서는 다시 묻지 않습니다.
+    허용한 폴더는 왼쪽 목록에 보이고, 우클릭해서 <strong>목록에서 빼기</strong>를 누르면
+    권한이 사라집니다.</p>
+
+    <h3>미리보기의 두 이름이 똑같아 보입니다</h3>
+    <p>이름은 멀쩡해 보이지만 한글이 자모 단위로 쪼개져 저장돼 있는 경우입니다. 윈도우는
+    그 상태를 그대로 보여 줍니다. 상태 칸에 <strong>정리</strong>라고 적히고,
+    <strong>윈도우에서 보이는 대로</strong>를 켜면 차이가 보입니다.</p>
+
+    <h3>어떤 이름은 "복구 불가"라고 나옵니다</h3>
+    <p>파일이 도착하기 전에 이미 망가진 이름입니다. 잘못된 인코딩이 일부 글자를 대체 문자로
+    바꿔 버려 원래 글자가 남아 있지 않습니다. 바꾸미는 짐작으로 채우지 않고 그 사실을 말한 뒤
+    건너뜁니다.</p>
+
+    <h3>USB 메모리에서는 여전히 자모가 흩어집니다</h3>
+    <p>macOS는 exFAT·FAT32 볼륨에는 어떤 앱이 무엇을 하든 모든 이름을 분리된 형태로 씁니다.
+    바꾸미는 그 볼륨에서 합쳐 저장할 수 없다는 사실을 알려 줄 뿐, 된 것처럼 꾸미지 않습니다.
+    깨진 이름 복구는 그 볼륨에서도 됩니다.</p>
+
+    <h3>업데이트는 어떻게 받나요?</h3>
+    <p><strong>bakkumi &rsaquo; 업데이트 확인</strong>을 누릅니다. 바꾸미가 스스로 확인하는 일은
+    없습니다. Homebrew로 설치했다면 <code>brew upgrade --cask bakkumi</code>.</p>
+
+    <h2>문의</h2>
+    <div class="card">
+      <p style="margin:0">이슈를 남겨주시면 그곳에서 답변드립니다.<br>
+      <a href="https://github.com/mhb8436/bakkumi-release/issues">github.com/mhb8436/bakkumi-release/issues</a></p>
+    </div>
+
+    <h2>개인정보 처리방침</h2>
+    <div class="card">
+      <p style="margin:0 0 10px"><strong>바꾸미는 아무것도 수집하지 않습니다.</strong></p>
+      <ul style="margin:0">
+        <li>어떤 개인정보도 수집·저장·전송하지 않습니다.</li>
+        <li>분석 도구, 추적, 광고 식별자를 쓰지 않습니다.</li>
+        <li>파일도 파일 이름도 사용자의 Mac을 떠나지 않습니다. 폴더를 여는 것만으로는 어디에도 아무것도 보내지 않습니다.</li>
+        <li>바꾸미가 네트워크를 쓰는 순간은 정확히 둘이고, 둘 다 <em>사용자가</em> 그 기능을 쓸 때뿐입니다.
+          <ul style="margin:6px 0 0">
+            <li>이름에 <code>{place}</code> 태그를 넣으면, 사진에 이미 들어 있는 GPS 좌표를 소수
+            셋째 자리로 반올림해 Apple의 지오코딩 서비스에 보내고 장소 이름을 받아 옵니다.
+            앱을 끄면 아무것도 남지 않습니다.</li>
+            <li><strong>업데이트 확인</strong>을 누르면 GitHub에서 최신 버전 번호를 읽어 옵니다.
+            사용자나 파일에 관한 정보는 보내지 않습니다.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    bakkumi &middot; macOS &middot; <span id="y"></span> JI HOON LEE
+    &middot; a companion to <a href="https://mhb8436.github.io/jamoa-release/">jamoa</a>
+  </footer>
+
+</div>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  // 최신 릴리스의 버전·날짜·크기를 보여준다. 릴리스가 없거나 API가 막히면 조용히 숨긴다.
+  (async () => {
+    try {
+      const r = await fetch('https://api.github.com/repos/mhb8436/bakkumi-release/releases/latest',
+                            { headers: { Accept: 'application/vnd.github+json' } });
+      if (!r.ok) return;
+      const j = await r.json();
+      const dmg = (j.assets || []).find(a => a.name === 'bakkumi.dmg');
+      document.getElementById('rv').textContent = String(j.tag_name || '').replace(/^v/, '');
+      document.getElementById('rd').textContent = String(j.published_at || '').slice(0, 10);
+      document.getElementById('rs').textContent = dmg ? (dmg.size / 1048576).toFixed(1) + ' MB' : '';
+      document.getElementById('rel').hidden = false;
+    } catch (e) {}
+  })();
+</script>
+</body>
+</html>
